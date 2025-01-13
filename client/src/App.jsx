@@ -1,7 +1,7 @@
 //import { useEffect } from 'react'
 import React, {useEffect, useState, useMemo} from 'react'
 import {io} from 'socket.io-client'
-import {Button, Container, TextField, Typography} from '@mui/material'
+import {Button, Container, Stack, TextField, Typography} from '@mui/material'
 
 const App = () => {
 
@@ -12,6 +12,8 @@ const App = () => {
   const [message, setMessage] = useState('')
   const [room, setRoom] = useState('')
   const [socketID, setSocketID] = useState('')
+
+  //this is to display the messag eon the web page
   const [messages, setMessages] = useState([])
 
   console.log(messages)
@@ -37,6 +39,9 @@ const App = () => {
 
       socket.on('receive-message', (data) => {
         console.log(data)
+
+        //this basically spreads the existing message to a new array which is declared in the useState above
+        //messages will map the message into an array
         setMessages((messages) => [...messages, data])
       })
 
@@ -73,6 +78,14 @@ const App = () => {
         </Button>
         
       </form>
+
+      <Stack>
+        {messages.map((m,i) => (
+          <Typography key={i} variant='h4' component="div" gutterBottom>
+            {m}
+          </Typography>
+        ))}
+      </Stack>
     </Container>
   )
 }
