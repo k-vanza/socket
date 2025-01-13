@@ -26,8 +26,8 @@ const App = () => {
   
 
   return (
-    <Container>
-      <Typography>
+    <Container maxWidth='sm'>
+      <Typography variant='h4'>
         welcome to socket io
       </Typography>
     </Container>

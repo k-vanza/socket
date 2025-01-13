@@ -35,6 +35,7 @@ io.on("connection", (socket) => {
 
     //the below line will show how to disconnect a user
     //now in order to disconnect the user will be unmounted and we need to pass a cleanup function in the useEfect
+    //the disconnect will come from client side which is used in useEffect
     socket.on("disconnect", () => {
         console.log("user disconnected", socket.id)
     })
