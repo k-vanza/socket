@@ -10,17 +10,24 @@ const App = () => {
   const socket = useMemo(() => io("http://localhost:3000"), [])
 
   const [message, setMessage] = useState('')
+  const [room, setRoom] = useState('')
+  const [socketID, setSocketID] = useState('')
+  const [messages, setMessages] = useState([])
+
+  console.log(messages)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    socket.emit('message', message)
+    socket.emit('message', {message, room})
     setMessage('')
+    setRoom('')
   }
 
 
   //below are the listners to the emit in server 
   useEffect(() => {
       socket.on("connect", () => {
+        setSocketID(socket.id)
         console.log("connected", socket.id)
       })
       //here welcome is the event which is in the app.js and the data to be passed is called using an object which is s
@@ -30,6 +37,7 @@ const App = () => {
 
       socket.on('receive-message', (data) => {
         console.log(data)
+        setMessages((messages) => [...messages, data])
       })
 
       return () => {
@@ -42,7 +50,7 @@ const App = () => {
   return (
     <Container maxWidth='sm'>
       <Typography variant='h4' gutterBottom>
-        welcome to socket io
+        {socketID}
       </Typography>
 
       <form onSubmit={handleSubmit}>
@@ -50,7 +58,14 @@ const App = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)} 
           id='outlined-basic' 
-          label='Outlined' 
+          label='Message' 
+          variant='outlined' />
+
+        <TextField
+          value={room}
+          onChange={(e) => setRoom(e.target.value)} 
+          id='outlined-basic' 
+          label='enter room-id on which you want to send message' 
           variant='outlined' />
 
         <Button type='submit' variant='contained' color='primary'>

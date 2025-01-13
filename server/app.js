@@ -28,9 +28,16 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("welcome", `${socket.id} joined the server`)
 
     //the below statement means when we get a "message" from the frontend we will console log it
-    socket.on("message", (data) => {
-        console.log(data);
-        io.emit("receive-message",data)
+    // socket.on("message", (data) => {
+    //     console.log(data);
+    //     io.emit("receive-message",data)
+    //     //socket.broadcast.emit("receive-message", data)
+    // })
+
+    socket.on("message", (room, message) => {
+        console.log({room, message});
+        io.to(room).emit("receive-message",message)
+        //socket.broadcast.emit("receive-message", data)
     })
 
     //the below line will show how to disconnect a user
