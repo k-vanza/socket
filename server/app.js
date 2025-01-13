@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
     //the below statement means when we get a "message" from the frontend we will console log it
     socket.on("message", (data) => {
         console.log(data);
-        io.emit("message",data)
+        io.emit("receive-message",data)
     })
 
     //the below line will show how to disconnect a user
